@@ -2,8 +2,8 @@
 
 ## Student Details
 
-- **Full Name:** `<Enter name>`
-- **CCID:** `<Enter ccid>`
+- **Full Name:** `Seth Close`
+- **CCID:** `srclose`
 
 ## References and Resources
 
