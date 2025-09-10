@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> dataList; //List of cities
     EditText editText; //Textbox
     Button addCity; //Add Button
+    Button deleteCity; //Delete Button
     String city; //String to hold city
 
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //Adding cities
         editText = findViewById(R.id.editText);
         addCity = findViewById(R.id.addCity);
+        deleteCity = findViewById(R.id.deleteCity);
 
         //Adds text in the edit text when button is pressed
         addCity.setOnClickListener(new View.OnClickListener() {
@@ -53,14 +55,35 @@ public class MainActivity extends AppCompatActivity {
                 if (editText.getText().length() > 0) {
                     //Collecting city name
                     city = editText.getText().toString();
-                    // Clear the EditText for the next number
-                    editText.setText("");
+                    if (!dataList.contains(city)) { //Ensure that it is a new city
+                        // Clear the EditText for the next number
+                        editText.setText("");
+                        //Adding to dataset
+                        dataList.add(city);
+                        // Notify the adapter that the dataset has changed
+                        cityAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
 
-                    //Pushing to view
-                    //Adding to dataset
-                    dataList.add(city);
-                    // Notify the adapter that the dataset has changed
-                    cityAdapter.notifyDataSetChanged();
+
+        //Delete Button
+        deleteCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editText.getText().length() > 0) {
+                    //Collecting city name
+                    city = editText.getText().toString();
+                    if (dataList.contains(city) ) { //Ensure that it is not a new city
+                        // Clear the EditText for the next number
+                        editText.setText("");
+
+                        dataList.remove(city); //Deletes from original dataset
+
+                        // Notify the adapter that the dataset has changed
+                        cityAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
@@ -69,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
         cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                dataList.remove(i); //Deletes from original dataset
-                cityAdapter.notifyDataSetChanged(); //Update adapter and actual view
+                editText.setText(dataList.get(i));
+                //dataList.remove(i); //Deletes from original dataset
+                //cityAdapter.notifyDataSetChanged(); //Update adapter and actual view
             }
         });
     }
